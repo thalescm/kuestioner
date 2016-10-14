@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'kuestioner'
@@ -55,6 +58,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'javax.annotation:javax.annotation-api:1.2'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
