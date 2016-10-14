@@ -1,8 +1,8 @@
 package br.com.thalesmachado.kuestioner.constants
 
-val bracketsStart = "{"
-val bracketsEnd = "}"
-val parenthesisStart = "("
-val parenthesisEnd = ")"
-val colon = ":"
-val space = " "
+internal val bracketsStart = "{"
+internal val bracketsEnd = "}"
+internal val parenthesisStart = "("
+internal val parenthesisEnd = ")"
+internal val colon = ":"
+internal val space = " "

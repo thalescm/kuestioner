@@ -61,6 +61,24 @@ class KuestionerTest {
                 ))
     }
 
+    @Test
+    fun testQueryableModelWithNoFieldClassAsField_showThrowError() {
+        try {
+            getQueryForClass(SimpleModelWithNoFieldClassAsField::class.java)
+            failOnExceptionNotThrown()
+        } catch (e: IllegalArgumentException) {
+            assertEquals("QueryableWithNoFieldsModel must have at least one field", e.message)
+        }
+    }
+
+    @Test
+    fun testNestedSimpleModel() {
+        assertEquals(
+                "{simpleNestedModel{simpleModel{name}}}",
+                getQueryForClass(SimpleNestedModel::class.java)
+        )
+    }
+
     fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any> = mapOf()): String {
         return Kuestioner.queryOn(clazz, queries)
     }

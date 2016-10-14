@@ -4,21 +4,34 @@ import br.com.thalesmachado.kuestioner.constants.*
 import br.com.thalesmachado.kuestioner.utils.getClassName
 import br.com.thalesmachado.kuestioner.utils.getQueryParameterName
 import br.com.thalesmachado.kuestioner.utils.isEmptyClass
+import br.com.thalesmachado.kuestioner.utils.isFieldPrimitive
+import java.lang.reflect.Field
 
-fun getQueryForFields(clazz: Class<*>): String {
+internal fun getQueryForFieldAsClass (field : Field) : String {
+    return field.name + getQueryForFields(field.type) + space
+}
+
+internal fun getQueryForPrimitiveField (field: Field) : String {
+    return field.name + space
+}
+
+internal fun getQueryForFields(clazz: Class<*>): String {
     if (isEmptyClass(clazz)) throw IllegalArgumentException("${getClassName(clazz)} must have at least one field")
 
     var returnable = bracketsStart
-    clazz.fields.forEach {
-        returnable += it.name + space
-    }
     clazz.declaredFields.forEach {
-        returnable += it.name + space
+        if (isFieldPrimitive(it))
+            returnable += getQueryForPrimitiveField(it)
+        else
+            returnable += getQueryForFieldAsClass(it)
     }
-    return returnable.removeSuffix(space) + bracketsEnd
+    returnable = returnable.removeSuffix(space)
+    returnable += bracketsEnd
+    if (returnable.length == 2) returnable = "" // case where class has no fields
+    return returnable
 }
 
-fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): String {
+internal fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): String {
     val str = getClassName(clazz)
     var returnable = Character.toLowerCase(str[0]) + str.substring(1)
 
@@ -33,6 +46,6 @@ fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): String {
     return returnable
 }
 
-fun getQueryForClassAndFields(clazz: Class<*>, queries: Map<String, Any>): String {
+internal fun getQueryForClassAndFields(clazz: Class<*>, queries: Map<String, Any>): String {
     return "${getQueryForClass(clazz, queries)}${getQueryForFields(clazz)}"
 }
