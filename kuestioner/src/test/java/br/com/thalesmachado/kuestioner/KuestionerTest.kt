@@ -5,7 +5,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
-class ParserTest {
+class KuestionerTest {
 
     @Test
     fun emptyViewModel_shouldThrowError() {
@@ -62,7 +62,7 @@ class ParserTest {
     }
 
     fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any> = mapOf()): String {
-        return Parser.parse(clazz, queries)
+        return Kuestioner.queryOn(clazz, queries)
     }
 
     fun failOnExceptionNotThrown() {
