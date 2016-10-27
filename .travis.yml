@@ -1,19 +1,32 @@
-language: java
-jdk:
-- oraclejdk8
+language: android
+jdk: oraclejdk8
+sudo: false
 
-cache:
-  directories:
-  - $HOME/.gradle
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-24.0.3
+    - android-24
+    - extra-android-support
+    - extra-android-m2repository
+  licenses:
+    - android-sdk-license-.+
 
 env:
   global:
-#  - secure: E2jm3qJrcyavBwWkBQxqKrLjprl4QRT3vGtX87HyEzCYAveh+bdiY+gvu0q+RoFhAklzSEJnND5vBDbHD4gzV9bx9UdafrPzwKFEWt3ZcVGI70JEYHfcID0jzQ6pI7LismrTOpVkHyUZudBnG3yNh6PxID8890I5IMPHInvvVMUDhJ+jpLtjnn5HnRLVIEOX1A368pQoqiAKvSPuIHmDdFofYbAlgprWEtkrpdLd/1Yp95yrE5EjC6nwjhvG2LHiKTr5FgAWD9/owmemioBnexSxEgZe76cRm38WDQVWpEppp7FHJ7eo0LhtEBXYUXJX2UE6W5A0rRBfRRoOCa8eABmY2kxsm5TajlA7yrxqeQebuvcQzVmSjPJ3t7JLkgcYMI88HbpvKjhA5fFVi8TeThd85wXp58eQkIU/7EoLPaqALUHw8WCAaBOmcQ37MLeSk6oX8SQUS0owo58guh1SN95BpTrMuzvvN4V9LPGNMfnVBxuKjnfOxxPkBWLEsuvgGwdC9pYj3dDYVDD7igrGy5qTwTJ8qTtqud3uUY0JVzpPpN6m3IKI0qxEOYTDS3WrJh14P8flFZXYU/Vot1xkmZPMlAAqYxdRWLnNAjwS+c8VePKqZmIp3FVxFyrs9yJehFWynB0ZYi3ZUtc0UKkoIKLocMi1huHgAmRrJbteN9Y=
+    - secure: "n3lO3QF+DOGYGRO/8UYbCRR1sUD024zUOGKlZyVZgMnyq/vKzlSEuGwM5MOa2tGUMyMM+pDekroMLuzAylXzhWUENHkBkrkbLzlhWCdqjw/ZKqc9ssoCcre9ffCQy6RPUGTVFxeoCj0IyvYfboO/ltNlsRW7KGHXE1gucEMIuieL8vI+0j6LwXRq7Uq869oz2npT7rrU7tShoQPGeRols2I3UPCEgCzABvgv8apmkGPJ4SwOU0ZMvBUGMKkPPwQPoGgHKxiOTEmjdXeWS4M2OhSTP4qUnLbb1NE9pITwWqpgKGoURydm28zV5hPHXuwrhpb49ccV8quNaQgJTjwZCdoU+l+hquiIJQwftf+OehmaFYPLSrVK9ss1Gl1q2wrbPfhbwyjBTPK57dRa9T4OUYf3C/L18xmDCWGEE1JXg3e1oRuuyE27Cp4p5OaSzNE0JzanAmW1IxiYDnt3ksGIJYQLVMYO+sT7dIEtmDxNxok/9arPgeQ+0lwbkP6M9MRcA0qdpalfRnGlN0dc/niPZBkBq+0gGebBnZgz/dPh4oH6/pemHMgTRUu00SwUCdhbWe/bxQhQaYWnIBlMxjmxZP9I80UBjw7BK1wcyUplSETTaw6RE/FA6edAjRIPcbVu/xe2KTBOAzvusJqoQEs3SchTXasZG8+2oRKvX+sjxUE="
+    - secure: "vmjMMZG38igsNlPFQWLW/NlmmF37237kXqu1nJB9ZV1jnmdnCLyq+YIm8sd6lqeaeq2oERQe6fGLpYh20RvkC1QkKqfpnHCfKr2rlGf5r/xXIfPlFxnKad1S9g7ied3VrKnAoThUGBOJ7SN9bLUZ/OTeZ6ZP7ua/GPKk4x6Yve1j2YQIYgQ8Re3l11H0GBgwxCCcfgRPJtZrWqec7WfnYuwSFoKuyUJ/wGPyIT2L2tUsY5yEHn6BCyRz4dKSMfl9Zu8gEDOFZixn/bfT2yLqnXxkzk3gyqOQX0LHPyEp3XZnQVjF/3AGBeftg8meYbVWZ5eN9ADdjlBm/ZJHk9c3yNXea23GivkYPP1H36F6yfMSwUmjNKe+F/fk8Ay98SgRvUjE8D3rnkdUEcIiJYDZpPZgiujmD7WX3Kv8mhY8NkvKp1BO+rDXawHbOt3IK/eMxGbBSqCNlRTOT2J3TPhWi/RpVVtmpLqaqU2ebkXr9XWaVar1CSLaWvQN04lVEvXCmAtajbQslhFknzbqIztfpIDOoaB3ATFRUxjA4yHNMtZuaLAoiAm9uQMUrf9dr/YqdODaEoSQzdoNTA99inO7zComsvljClS8g6SkVTEcYbeZPPeTrtKJFTXAGHpdzksBt84pmzskf8zIa2/76MVv4ovaC93j0mykeztj8vg4sjE="
 
-#deploy:
-#- provider: script
-#  skip_cleanup: true
-#  script: ./gradlew build bintrayUpload -PdryRun=false
-#  on:
-#    branch: master
-#    tags: true
+script:
+  - ./gradlew clean check
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
+
+
+branches:
+  except:
+    - gh-pages

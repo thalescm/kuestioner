@@ -1,10 +1,14 @@
 # **Kuestioner**
-A lightweight kotlin client for GraphQL
+A lightweight kotlin query builder and client for [GraphQL](http://graphql.org/)
+
+-----------------
+
+[![Build Status](https://travis-ci.org/thalescm/kuestioner.svg?branch=master)](https://travis-ci.org/thalescm/kuestioner) [ ![Download](https://api.bintray.com/packages/thalescmachado/maven/kuestioner/images/download.svg) ](https://bintray.com/thalescmachado/maven/kuestioner/_latestVersion)
 
 -----------------
 
 # Warning
-THIS LIBRARY IS STILL IN EXPERIMENTAL PHASE. But I'm open to contrubutions and ideas!
+THIS LIBRARY IS STILL IN EXPERIMENTAL PHASE. But I'm open to contributions and ideas!
 
 -----------------
 
@@ -36,7 +40,7 @@ val query = Kuestioner.queryOn(Person::class.java)
 
 ### Query with parameters
 
-In order to add more extras to the intent, one can do the following:
+
 ```kotlin
 @Queryable(query = "id")
 class Person (

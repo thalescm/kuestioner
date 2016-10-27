@@ -30,13 +30,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'javax.annotation:javax.annotation-api:1.2'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.robolectric:robolectric:3.1.2"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -52,6 +50,6 @@ publish {
     bintrayKey = "$System.env.BINTRAY_API_KEY"
     publishVersion = "$libraryVersion"
     licences = ["Apache-2.0"]
-    desc = 'GraphQL query builder written in Kotlin'
+    desc = 'A lightweight kotlin query builder and client for GraphQL'
     website = 'https://github.com/thalescm/kuestioner'
 }
