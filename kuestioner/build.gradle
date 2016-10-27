@@ -1,32 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'kuestioner'
-
-    publishedGroupId = 'br.com.thalesmachado'
-    libraryName = 'Kuestioner'
-    artifact = 'kuestioner'
-
-    libraryDescription = 'A lightweight kotlin client for GraphQL'
-
-    siteUrl = 'https://github.com/thalescm/kuestioner'
-    gitUrl = 'https://github.com/thalescm/kuestioner.git'
-
-    libraryVersion = '0.0.1'
-
-    developerId = 'thalescm'
-    developerName = 'Thales Machado'
-    developerEmail = 'thales.mchd+os@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 24
@@ -70,5 +44,14 @@ dependencies {
     })
 }
 
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'
+publish {
+    userOrg = 'Kuestioner'
+    groupId = 'br.com.thalesmachado'
+    artifactId = 'kuestioner'
+    bintrayUser = "$System.env.BINTRAY_USERNAME"
+    bintrayKey = "$System.env.BINTRAY_API_KEY"
+    publishVersion = "$libraryVersion"
+    licences = ["Apache-2.0"]
+    desc = 'GraphQL query builder written in Kotlin'
+    website = 'https://github.com/thalescm/kuestioner'
+}
