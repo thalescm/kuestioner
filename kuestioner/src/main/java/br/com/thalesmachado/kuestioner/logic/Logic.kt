@@ -2,17 +2,17 @@ package br.com.thalesmachado.kuestioner.logic
 
 import br.com.thalesmachado.kuestioner.constants.*
 import br.com.thalesmachado.kuestioner.utils.getClassName
-import br.com.thalesmachado.kuestioner.utils.getQueryParameterName
+import br.com.thalesmachado.kuestioner.utils.getQueriesParameterName
 import br.com.thalesmachado.kuestioner.utils.isEmptyClass
 import br.com.thalesmachado.kuestioner.utils.isFieldPrimitive
 import java.lang.reflect.Field
 
 internal fun getQueryForFieldAsClass (field : Field) : String {
-    return field.name + getQueryForFields(field.type) + space
+    return "${field.name}${getQueryForFields(field.type)} "
 }
 
 internal fun getQueryForPrimitiveField (field: Field) : String {
-    return field.name + space
+    return "${field.name} "
 }
 
 internal fun getQueryForFields(clazz: Class<*>): String {
@@ -33,17 +33,21 @@ internal fun getQueryForFields(clazz: Class<*>): String {
 
 internal fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): String {
     val str = getClassName(clazz)
-    var returnable = Character.toLowerCase(str[0]) + str.substring(1)
+    val returnable = Character.toLowerCase(str[0]) + str.substring(1)
 
-    getQueryParameterName(clazz)?.let {
-        if (queries[it] != null) {
-            returnable += parenthesisStart + it + colon + queries[it] + parenthesisEnd
+    var parameters = parenthesisStart
+    for (query: String in getQueriesParameterName(clazz)) {
+        if (queries[query] != null) {
+            parameters += "$query:${queries[query]},"
         } else {
-            throw IllegalArgumentException("${getClassName(clazz)} must have a value to query for $it")
+            throw IllegalArgumentException("${getClassName(clazz)} must have a value to query for $query")
         }
     }
+    parameters = parameters.removeSuffix(comma)
+    parameters += parenthesisEnd
+    if (parameters.length == 2) parameters = "" // case where class has no fields
 
-    return returnable
+    return returnable + parameters
 }
 
 internal fun getQueryForClassAndFields(clazz: Class<*>, queries: Map<String, Any>): String {

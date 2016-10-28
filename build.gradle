@@ -4,7 +4,7 @@ buildscript {
     ext {
         kotlin_version = '1.0.4'
         bintray_plugin_version = '0.3.4'
-        libraryVersion = '0.0.1'
+        libraryVersion = '0.1.0'
     }
 
     repositories {

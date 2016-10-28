@@ -30,3 +30,10 @@ cache:
 branches:
   except:
     - gh-pages
+
+deploy:
+- provider: script
+  script: ./gradlew build bintrayUpload -PdryRun=false
+  on:
+    branch: master
+    tags: true

@@ -1,11 +1,14 @@
 package br.com.thalesmachado.kuestioner
 
-import br.com.thalesmachado.kuestioner.examples.*
+import br.com.thalesmachado.kuestioner.annotations.Queryable
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
+@Suppress("unused")
 class KuestionerTest {
+
+    private class NotAnnotatedModel
 
     @Test
     fun emptyViewModel_shouldThrowError() {
@@ -17,65 +20,122 @@ class KuestionerTest {
         }
     }
 
+
+    @Queryable
+    private class AnnotatedWithNoParameters
+
     @Test
     fun testQueryableModelWithNoFields_showThrowError() {
         try {
-            getQueryForClass(QueryableWithNoFieldsModel::class.java)
+            getQueryForClass(AnnotatedWithNoParameters::class.java)
             failOnExceptionNotThrown()
         } catch (e: IllegalArgumentException) {
-            assertEquals("QueryableWithNoFieldsModel must have at least one field", e.message)
+            assertEquals("AnnotatedWithNoParameters must have at least one field", e.message)
         }
     }
 
+
+    @Queryable
+    private class OneField(val name: String)
+
     @Test
-    fun testSimpleModel() {
+    fun testSimpleModel_shouldWork() {
         assertEquals(
-                "{simpleModel{name}}",
-                getQueryForClass(SimpleModel::class.java)
+                "{oneField{name}}",
+                getQueryForClass(OneField::class.java)
         )
     }
 
+
+    @Queryable
+    private class TwoFields(
+            val name: String,
+            val age: Int
+    )
+
     @Test
-    fun testSimpleModelManyFields() {
+    fun testSimpleModel_WithManyFields_ManyFields() {
         assertEquals(
-                "{simpleModelMultiplePrimitiveFields{name age}}",
-                getQueryForClass(SimpleModelMultiplePrimitiveFields::class.java)
+                "{twoFields{name age}}",
+                getQueryForClass(TwoFields::class.java)
         )
     }
+
+    @Queryable("accountId")
+    private class OneParameter(
+            val name: String
+    )
 
     @Test
     fun testQueryShouldThrowIfNoParameters() {
         try {
-            getQueryForClass(ModelWithSingleQuery::class.java)
+            getQueryForClass(OneParameter::class.java)
             failOnExceptionNotThrown()
         } catch (e: IllegalArgumentException) {
-            assertEquals("ModelWithSingleQuery must have a value to query for accountId", e.message)
+            assertEquals("OneParameter must have a value to query for accountId", e.message)
         }
     }
 
     @Test
-    fun testQueryWithRightParameter() {
-        assertEquals("{modelWithSingleQuery(accountId:12){name}}",
-                getQueryForClass(ModelWithSingleQuery::class.java,
+    fun testQueryWithOneParameter() {
+        assertEquals("{oneParameter(accountId:12){name}}",
+                getQueryForClass(OneParameter::class.java,
                         mapOf("accountId" to "12")
                 ))
     }
 
+    @Queryable("query1", "query2")
+    private class TwoParameters(
+            val name: String
+    )
+
     @Test
-    fun testQueryableModelWithNoFieldClassAsField_showThrowError() {
+    fun testQueryWithTwoParameters_WithOneNotProvided_ThrowError() {
         try {
-            getQueryForClass(SimpleModelWithNoFieldClassAsField::class.java)
+            getQueryForClass(TwoParameters::class.java,
+                    mapOf("query1" to "12")
+            )
             failOnExceptionNotThrown()
         } catch (e: IllegalArgumentException) {
-            assertEquals("QueryableWithNoFieldsModel must have at least one field", e.message)
+            assertEquals("TwoParameters must have a value to query for query2", e.message)
         }
     }
 
     @Test
+    fun testQueryWithTwoParameters() {
+        assertEquals("{twoParameters(query1:12,query2:13){name}}",
+                getQueryForClass(TwoParameters::class.java,
+                        mapOf("query1" to "12",
+                                "query2" to "13")
+                ))
+    }
+
+    @Queryable
+    private class NonPrimitiveFieldWithoutFields(
+            val noFieldClass: AnnotatedWithNoParameters
+    )
+
+    @Test
+    fun testQueryableModelWithNoFieldClassAsField_showThrowError() {
+        try {
+            getQueryForClass(NonPrimitiveFieldWithoutFields::class.java)
+            failOnExceptionNotThrown()
+        } catch (e: IllegalArgumentException) {
+            assertEquals("AnnotatedWithNoParameters must have at least one field", e.message)
+        }
+    }
+
+
+    @Queryable
+    private class NestedQueryables(
+            val simpleModel: OneField
+    )
+
+    @Test
     fun testNestedSimpleModel() {
         assertEquals(
-                "{simpleNestedModel{simpleModel{name}}}",
-                getQueryForClass(SimpleNestedModel::class.java)
+                "{nestedQueryables{simpleModel{name}}}",
+                getQueryForClass(NestedQueryables::class.java)
         )
     }
 

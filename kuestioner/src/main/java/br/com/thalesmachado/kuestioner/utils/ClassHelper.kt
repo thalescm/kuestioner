@@ -12,7 +12,7 @@ internal fun classNotAnnotated(clazz: Class<*>): Boolean {
     return !clazz.isAnnotationPresent(Queryable::class.java)
 }
 
-internal fun getQueryParameterName(clazz: Class<*>) : String? {
-    val query = clazz.getAnnotation(Queryable::class.java).query
-    return if (query == "") null else query
+internal fun getQueriesParameterName(clazz: Class<*>) : Array<out String> {
+    val queries = clazz.getAnnotation(Queryable::class.java).queries
+    return queries
 }
