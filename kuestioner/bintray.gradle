@@ -1,0 +1,14 @@
+apply plugin: 'com.novoda.bintray-release'
+
+version = "$libraryVersion"
+
+publish {
+    groupId = 'br.com.thalesmachado'
+    artifactId = 'kuestioner'
+    bintrayUser = System.getenv('BINTRAY_USERNAME')
+    bintrayKey = System.getenv('BINTRAY_KEY')
+    publishVersion = "$libraryVersion"
+    licences = ["Apache-2.0"]
+    desc = 'GraphQL query builder written in Kotlin'
+    website = 'https://github.com/thalescm/kuestioner'
+}
