@@ -1,10 +1,10 @@
 ext {
+    libraryName = 'Kuestioner'
     bintrayRepo = 'maven'
     bintrayName = 'kuestioner'
 
     publishedGroupId = 'br.com.thalesmachado'
-    libraryName = 'Kuestioner'
-    artifact = 'kuestioner'
+    publishedArtifactId = 'kuestioner'
 
     libraryDescription = 'A lightweight kotlin query builder GraphQL'
 
@@ -15,7 +15,7 @@ ext {
 
     developerId = 'thalescm'
     developerName = 'Thales Machado'
-    developerEmail = 'thales.mchd+os@gmail.com'
+    developerEmail = 'thales.mchd+kuestioner@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -24,7 +24,6 @@ ext {
 
 buildscript {
     ext {
-        publish_version = '0.1.0'
         bintray_plugin_version = '0.3.4'
 
         junit_version = '4.12'
@@ -39,14 +38,11 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
         classpath "org.junit.platform:junit-platform-runner:$junit_platform_version"
-
         classpath "com.novoda:bintray-release:$bintray_plugin_version"
     }
 }
 
 apply plugin: 'kotlin'
-//apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.novoda.bintray-release'
 
 sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
@@ -67,14 +63,4 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
-publish {
-    userOrg = 'thalescmachado'
-    groupId = 'br.com.thalesmachado'
-    artifactId = 'kuestioner'
-    bintrayUser = "$System.env.BINTRAY_USERNAME"
-    bintrayKey = "$System.env.BINTRAY_API_KEY"
-    publishVersion = "$libraryVersion"
-    licences = ["Apache-2.0"]
-    desc = 'A lightweight kotlin query builder and client for GraphQL'
-    website = 'https://github.com/thalescm/kuestioner'
-}
+apply from: 'bintray.gradle'
