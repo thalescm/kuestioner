@@ -14,10 +14,10 @@ private fun throwIfNotAnnotated(clazz: Class<*>) {
 class Kuestioner {
     companion object {
 
-        fun queryOn(@Queryable clazz: Class<*>, withParameters: Map<String, Any> = mapOf()): String {
+        fun queryOn(@Queryable clazz: Class<*>, withParameters: Map<String, Any> = mapOf()): APIModel {
             throwIfNotAnnotated(clazz)
 
-            return "$bracketsStart${getQueryForClassAndFields(clazz, withParameters)}$bracketsEnd"
+            return APIModel(query = "$bracketsStart${getQueryForClassAndFields(clazz, withParameters)}$bracketsEnd")
         }
     }
 }

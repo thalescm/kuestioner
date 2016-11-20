@@ -21,25 +21,22 @@ class Person (
     val name : String,
     val age : Int
 )
+```
 
-// Then use Kuestioner to build the query for this class
+Then use Kuestioner to build the query for this class
+
+```kotlin
 val query = Kuestioner.queryOn(Person::class.java)
+```
 
-/*
- The result will be
- "
+ The result will be a kotlin object corresponding to:
+ ```JSON
  {
-   person {
-     name
-     age
-   }
+   "query" : "{ person {name age} }"
  }
- "
-/*
 ```
 
 ### Query with parameters
-
 
 ```kotlin
 @Queryable(query = "id")
@@ -47,23 +44,23 @@ class Person (
     val name : String,
     val age : Int
 )
+```
 
+Then use Kuestioner to build the query for this class
+
+```kotlin
 val query = Kuestioner.queryOn(
   Person::class.java,
   mapOf("id" to "12")
-  )
+)
+```
 
-/*
- The result will be
- "
- {
-   person(id: 12) {
-     name
-     age
-   }
- }
- "
-/*
+The result will be
+
+```JSON
+{
+  "query" : "{ person(id: 12) {name age}}"
+}
 ```
 
 ### Installation
@@ -71,11 +68,11 @@ val query = Kuestioner.queryOn(
 Add the dependency:
 ```gradle
 dependencies {
-    compile 'br.com.thalesmachado:kuestioner:0.0.1'
+    compile 'br.com.thalesmachado:kuestioner:0.1.1'
 }
 ```
 
 ### RoadMap
 
 - **Make a complete API following graphQL language**:
-- **Integrate with Retrofit to enable this as a parameter to requests, and parse the response accordinly**
+- **Integrate with Retrofit to enable this as a parameter to requests, and parse the response accordingly**
