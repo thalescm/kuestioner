@@ -42,7 +42,7 @@ class KuestionerTest {
     fun testSimpleModel_shouldWork() {
         assertEquals(
                 "{oneField{name}}",
-                getQueryForClass(OneField::class.java)
+                getQueryForClass(OneField::class.java).query
         )
     }
 
@@ -57,7 +57,7 @@ class KuestionerTest {
     fun testSimpleModel_WithManyFields_ManyFields() {
         assertEquals(
                 "{twoFields{name age}}",
-                getQueryForClass(TwoFields::class.java)
+                getQueryForClass(TwoFields::class.java).query
         )
     }
 
@@ -81,7 +81,7 @@ class KuestionerTest {
         assertEquals("{oneParameter(accountId:12){name}}",
                 getQueryForClass(OneParameter::class.java,
                         mapOf("accountId" to "12")
-                ))
+                ).query)
     }
 
     @Queryable("query1", "query2")
@@ -107,7 +107,7 @@ class KuestionerTest {
                 getQueryForClass(TwoParameters::class.java,
                         mapOf("query1" to "12",
                                 "query2" to "13")
-                ))
+                ).query)
     }
 
     @Queryable
@@ -135,11 +135,11 @@ class KuestionerTest {
     fun testNestedSimpleModel() {
         assertEquals(
                 "{nestedQueryables{simpleModel{name}}}",
-                getQueryForClass(NestedQueryables::class.java)
+                getQueryForClass(NestedQueryables::class.java).query
         )
     }
 
-    fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any> = mapOf()): String {
+    fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any> = mapOf()): APIModel {
         return Kuestioner.queryOn(clazz, queries)
     }
 

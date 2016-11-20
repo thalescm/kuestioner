@@ -1,9 +1,8 @@
 package br.com.thalesmachado.sample
 
 import br.com.thalesmachado.kuestioner.Kuestioner
-import br.com.thalesmachado.sample.models.Viewer
-import br.com.thalesmachado.sample.models.ViewerQuery
-import br.com.thalesmachado.sample.service.GithubService
+import br.com.thalesmachado.sample.models.Film
+import br.com.thalesmachado.sample.service.StarWarsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,17 +15,21 @@ fun main(args: Array<String>) {
     interceptor.level = HttpLoggingInterceptor.Level.BODY
     val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
-    val retrofit = Retrofit.Builder().baseUrl("https://api.github.com/")
+    val retrofit = Retrofit.Builder().baseUrl("http://graphql-swapi.parseapp.com/")
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
 
-    val service = retrofit.create(GithubService::class.java)
+    val service = retrofit.create(StarWarsService::class.java)
     service
-            .query(ViewerQuery(Kuestioner.queryOn(Viewer::class.java)))
+            .query(Kuestioner.queryOn(Film::class.java, mapOf("id" to "\"ZmlsbXM6MQ==\"")))
             .subscribe(
-                    {println("SUCCESS") }
-                    , { println("ERROR") })
+                    {
+                        println("SUCCESS")
+                    },
+                    {
+                        println("ERROR + $it")
+                    })
 
 }
