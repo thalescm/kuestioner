@@ -80,7 +80,7 @@ class KuestionerTest {
     fun testQueryWithOneParameter() {
         assertEquals("{oneParameter(accountId:12){name}}",
                 getQueryForClass(OneParameter::class.java,
-                        mapOf("accountId" to "12")
+                        mapOf("accountId" to 12)
                 ).query)
     }
 
@@ -93,7 +93,7 @@ class KuestionerTest {
     fun testQueryWithTwoParameters_WithOneNotProvided_ThrowError() {
         try {
             getQueryForClass(TwoParameters::class.java,
-                    mapOf("query1" to "12")
+                    mapOf("query1" to 12)
             )
             failOnExceptionNotThrown()
         } catch (e: IllegalArgumentException) {
@@ -103,10 +103,10 @@ class KuestionerTest {
 
     @Test
     fun testQueryWithTwoParameters() {
-        assertEquals("{twoParameters(query1:12,query2:13){name}}",
+        assertEquals("{twoParameters(query1:12,query2:\"string\"){name}}",
                 getQueryForClass(TwoParameters::class.java,
-                        mapOf("query1" to "12",
-                                "query2" to "13")
+                        mapOf("query1" to 12,
+                                "query2" to "string")
                 ).query)
     }
 

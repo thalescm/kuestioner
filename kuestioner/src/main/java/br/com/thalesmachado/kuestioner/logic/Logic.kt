@@ -38,7 +38,8 @@ internal fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): Strin
     var parameters = parenthesisStart
     for (query: String in getQueriesParameterName(clazz)) {
         if (queries[query] != null) {
-            parameters += "$query:${queries[query]},"
+            val wrapInQuotes = if (queries[query] is String) "\"${queries[query]}\"" else queries[query]
+            parameters += "$query:$wrapInQuotes,"
         } else {
             throw IllegalArgumentException("${getClassName(clazz)} must have a value to query for $query")
         }
