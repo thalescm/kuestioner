@@ -1,5 +1,6 @@
 package br.com.thalesmachado.kuestioner
 
+import br.com.thalesmachado.kuestioner.annotations.Named
 import br.com.thalesmachado.kuestioner.annotations.Queryable
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -137,6 +138,17 @@ class KuestionerTest {
                 "{nestedQueryables{simpleModel{name}}}",
                 getQueryForClass(NestedQueryables::class.java).query
         )
+    }
+
+    @Queryable
+    @Named("customName")
+    private class NamedQuery(
+            val name: String
+    )
+
+    @Test
+    fun testQueryableWithCustomName() {
+        assertEquals("{customName{name}}", getQueryForClass(NamedQuery::class.java).query)
     }
 
     fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any> = mapOf()): APIModel {

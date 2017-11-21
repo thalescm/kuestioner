@@ -1,10 +1,7 @@
 package br.com.thalesmachado.kuestioner.logic
 
 import br.com.thalesmachado.kuestioner.constants.*
-import br.com.thalesmachado.kuestioner.utils.getClassName
-import br.com.thalesmachado.kuestioner.utils.getQueriesParameterName
-import br.com.thalesmachado.kuestioner.utils.isEmptyClass
-import br.com.thalesmachado.kuestioner.utils.isFieldPrimitive
+import br.com.thalesmachado.kuestioner.utils.*
 import java.lang.reflect.Field
 
 internal fun getQueryForFieldAsClass (field : Field) : String {
@@ -32,8 +29,7 @@ internal fun getQueryForFields(clazz: Class<*>): String {
 }
 
 internal fun getQueryForClass(clazz: Class<*>, queries: Map<String, Any>): String {
-    val str = getClassName(clazz)
-    val returnable = Character.toLowerCase(str[0]) + str.substring(1)
+    val returnable = getNamedParameter(clazz) ?: lowerCamelCase(clazz)
 
     var parameters = parenthesisStart
     for (query: String in getQueriesParameterName(clazz)) {
