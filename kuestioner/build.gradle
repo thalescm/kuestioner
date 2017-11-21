@@ -11,7 +11,7 @@ ext {
     siteUrl = 'https://github.com/thalescm/kuestioner'
     gitUrl = 'https://github.com/thalescm/kuestioner.git'
 
-    libraryVersion = '0.1.2'
+    libraryVersion = '0.2.0'
 
     developerId = 'thalescm'
     developerName = 'Thales Machado'
